@@ -31,4 +31,8 @@ main =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every timeInterval Tick
+    if model.paused then
+        Sub.none
+
+    else
+        Time.every timeInterval Tick

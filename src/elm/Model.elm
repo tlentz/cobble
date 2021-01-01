@@ -1,4 +1,4 @@
-module Model exposing (..)
+module Model exposing (Cell, Grid, GridConfig, GridPos, Model)
 
 import Time exposing (Posix)
 
@@ -7,9 +7,11 @@ type alias Model =
     { serverMessage : String
     , gridConfig : GridConfig
     , grid : Grid
-    , year : Int
+    , width : Maybe Int
+    , height : Maybe Int
     , posix : Posix
     , startPosix : Posix
+    , paused : Bool
     }
 
 
@@ -18,8 +20,8 @@ type alias Grid =
 
 
 type alias GridConfig =
-    { h : Int -- min/max 1/50
-    , w : Int -- min/max 1/50
+    { w : Int -- min/max 1/50
+    , h : Int -- min/max 1/50
     }
 
 

@@ -1,6 +1,6 @@
-module Constants exposing (..)
+module Constants exposing (timeInterval)
 
 
 timeInterval : Float
 timeInterval =
-    250
+    10
