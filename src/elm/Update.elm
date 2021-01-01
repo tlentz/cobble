@@ -1,8 +1,6 @@
-port module Update exposing (..)
+port module Update exposing (init, update)
 
-import Basics.Extra exposing (flip)
 import Http exposing (Error(..))
-import Json.Decode as Decode
 import List as L
 import List.Extra as LE
 import Model exposing (Cell, Grid, GridConfig, GridPos, Model)
@@ -48,19 +46,15 @@ initGrid ({ h, w } as gridConfig) =
             { cell
                 | pos = getGridPos idx gridConfig
                 , idx = idx
-                , isAlive = isInitAlive idx
+                , isAlive = False
             }
     in
     L.repeat numCells initCell
         |> L.indexedMap setPos
 
 
-isInitAlive idx =
-    L.member idx [ 1, 2, 3, 33, 34, 35, 88, 89, 90 ]
-
-
 getGridPos : Int -> GridConfig -> GridPos
-getGridPos idx { h, w } =
+getGridPos idx { w } =
     ( idx // w, remainderBy w idx )
 
 
@@ -71,9 +65,11 @@ init flags =
             { serverMessage = ""
             , gridConfig = initGridConfig
             , grid = initGrid initGridConfig
-            , year = 0
+            , width = Nothing
+            , height = Nothing
             , posix = Time.millisToPosix 0
             , startPosix = Time.millisToPosix 0
+            , paused = True
             }
     in
     ( initModel, Cmd.none )
@@ -99,8 +95,54 @@ update message model =
             }
                 |> tick
 
-        SetGridConfig cfg ->
-            ( { model | gridConfig = cfg }, Cmd.none )
+        SetWidth width ->
+            ( { model | width = width }, Cmd.none )
+
+        SetHeight height ->
+            ( { model | height = height }, Cmd.none )
+
+        Play ->
+            ( { model | paused = False }, Cmd.none )
+
+        Pause ->
+            ( { model | paused = True }, Cmd.none )
+
+        Restart ->
+            let
+                updatedGridCfg =
+                    { w = Maybe.withDefault 20 model.width, h = Maybe.withDefault 20 model.height }
+
+                updatedModel =
+                    { model
+                        | paused = True
+                        , gridConfig = updatedGridCfg
+                        , grid = initGrid updatedGridCfg
+                        , posix = Time.millisToPosix 0
+                        , startPosix = Time.millisToPosix 0
+                    }
+            in
+            ( updatedModel, Cmd.none )
+
+        SetGrid ->
+            let
+                updatedWidth =
+                    max 20 (min 50 (Maybe.withDefault 20 model.width))
+
+                updatedHeight =
+                    max 20 (min 50 (Maybe.withDefault 20 model.height))
+
+                updatedGridCfg =
+                    { w = updatedWidth, h = updatedHeight }
+
+                updatedModel =
+                    { model
+                        | gridConfig = updatedGridCfg
+                        , grid = initGrid updatedGridCfg
+                        , width = Just updatedWidth
+                        , height = Just updatedHeight
+                    }
+            in
+            ( updatedModel, Cmd.none )
 
         SetFillState idx state ->
             model.grid
@@ -130,7 +172,7 @@ tick model =
 
 
 followTheRules : List Cell -> Cell -> Cell
-followTheRules cells ({ isAlive } as cell) =
+followTheRules cells cell =
     let
         neighbors =
             findNeighbors cell cells
