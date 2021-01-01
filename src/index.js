@@ -2,7 +2,7 @@
 
 require("./styles.scss");
 
-const {Elm} = require('./Main');
+const {Elm} = require('./elm/Main');
 var app = Elm.Main.init({flags: 6});
 
 app.ports.toJs.subscribe(data => {
