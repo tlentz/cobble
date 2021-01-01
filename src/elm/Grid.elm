@@ -1,5 +1,6 @@
 module Grid exposing (..)
 
+import Arithmetic exposing (isEven)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, classList, height, style, width)
 import List as L
@@ -73,11 +74,11 @@ borderSize =
 
 
 viewCell : Cell -> Html msg
-viewCell { isFilled } =
+viewCell { isFilled, pos } =
     div
         [ classList
             [ ( "cell", True )
-            , ( "is-filled", isFilled )
+            , ( "is-filled", isEven <| Tuple.first pos )
             ]
         , height 25
         , width 25
