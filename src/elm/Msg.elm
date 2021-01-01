@@ -1,9 +1,10 @@
 module Msg exposing (..)
 
-import Http
+import Model exposing (GridConfig, GridPos, Model)
+import Time
 
 
 type Msg
-    = Inc
-    | TestServer
-    | OnServerResponse (Result Http.Error String)
+    = Tick Time.Posix
+    | SetGridConfig GridConfig
+    | SetFillState Int Bool -- idx, state
