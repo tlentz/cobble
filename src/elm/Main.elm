@@ -1,8 +1,10 @@
 module Main exposing (main)
 
 import Browser
+import Constants exposing (timeInterval)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
+import Time
 import Update exposing (init, update)
 import View exposing (view)
 
@@ -23,5 +25,10 @@ main =
                 { title = "Elm 0.19 starter"
                 , body = [ view m ]
                 }
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Time.every timeInterval Tick

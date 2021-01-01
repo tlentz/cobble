@@ -1,10 +1,15 @@
 module Model exposing (..)
 
+import Time exposing (Posix)
+
 
 type alias Model =
     { serverMessage : String
     , gridConfig : GridConfig
     , grid : Grid
+    , year : Int
+    , posix : Posix
+    , startPosix : Posix
     }
 
 
@@ -21,7 +26,7 @@ type alias GridConfig =
 type alias Cell =
     { idx : Int
     , pos : GridPos
-    , isFilled : Bool
+    , isAlive : Bool
     }
 
 

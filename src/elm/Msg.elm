@@ -1,8 +1,10 @@
 module Msg exposing (..)
 
 import Model exposing (GridConfig, GridPos, Model)
+import Time
 
 
 type Msg
-    = SetGridConfig GridConfig
+    = Tick Time.Posix
+    | SetGridConfig GridConfig
     | SetFillState Int Bool -- idx, state
