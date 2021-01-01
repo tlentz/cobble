@@ -7,9 +7,9 @@ import Msg exposing (Msg(..))
 import Ports exposing (toJs)
 
 
-init : Int -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd Msg )
 init flags =
-    ( { counter = flags, serverMessage = "" }, Cmd.none )
+    ( { serverMessage = "" }, Cmd.none )
 
 
 
@@ -21,9 +21,6 @@ init flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        Inc ->
-            ( add1 model, toJs "Inc" )
-
         TestServer ->
             let
                 expect =
@@ -40,16 +37,6 @@ update message model =
 
                 Err err ->
                     ( { model | serverMessage = "Error: " ++ httpErrorToString err }, Cmd.none )
-
-
-{-| increments the counter
-
-    add1 5 --> 6
-
--}
-add1 : Model -> Model
-add1 model =
-    { model | counter = model.counter + 1 }
 
 
 httpErrorToString : Http.Error -> String

@@ -13,7 +13,7 @@ import View exposing (view)
 -- ---------------------------
 
 
-main : Program Int Model Msg
+main : Program () Model Msg
 main =
     Browser.document
         { init = init
