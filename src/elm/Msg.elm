@@ -1,8 +1,7 @@
 module Msg exposing (..)
 
-import Http
+import Grid exposing (GridConfig)
 
 
 type Msg
-    = TestServer
-    | OnServerResponse (Result Http.Error String)
+    = SetGridConfig GridConfig

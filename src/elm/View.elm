@@ -1,8 +1,8 @@
 module View exposing (..)
 
-import Html exposing (Html, a, button, div, h1, header, img, p, span, text)
-import Html.Attributes exposing (class, href, src)
-import Html.Events exposing (onClick)
+import Grid
+import Html exposing (Html, div)
+import Html.Attributes exposing (class)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 
@@ -15,4 +15,4 @@ import Msg exposing (Msg(..))
 
 view : Model -> Html Msg
 view model =
-    div [ class "container" ] []
+    div [ class "container" ] [ Grid.view model.gridConfig model.grid ]

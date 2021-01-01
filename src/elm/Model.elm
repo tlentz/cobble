@@ -1,5 +1,9 @@
 module Model exposing (..)
 
+import Grid exposing (Grid, GridConfig)
+
+
+
 -- ---------------------------
 -- MODEL
 -- ---------------------------
@@ -7,4 +11,6 @@ module Model exposing (..)
 
 type alias Model =
     { serverMessage : String
+    , gridConfig : GridConfig
+    , grid : Grid
     }
