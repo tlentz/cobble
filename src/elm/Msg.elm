@@ -1,7 +1,8 @@
 module Msg exposing (..)
 
-import Grid exposing (GridConfig)
+import Model exposing (GridConfig, GridPos, Model)
 
 
 type Msg
     = SetGridConfig GridConfig
+    | SetFillState Int Bool -- idx, state
