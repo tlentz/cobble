@@ -22,7 +22,7 @@ import Time
 
 view : Model -> Html Msg
 view model =
-    div [ class "container", style "max-width" (String.fromInt (model.gridConfig.w * 27) ++ "px"), style "max-height" (String.fromInt (model.gridConfig.h * 27) ++ "px") ]
+    div [ class "container", style "max-width" (String.fromInt (model.gridConfig.w * 25) ++ "px"), style "max-height" (String.fromInt (model.gridConfig.h * 25) ++ "px") ]
         [ div [ class "header" ]
             [ configInputs model
             , displayTime model
@@ -70,8 +70,6 @@ gridView { h, w } cells =
         |> L.map viewCell
         |> Html.Keyed.node "div"
             [ class "grid-container"
-            , style "height" (px (h * (cellSize + borderSize)))
-            , style "width" (px (w * (cellSize + borderSize)))
             ]
 
 
